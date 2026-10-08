@@ -13,15 +13,20 @@ const TEAM_LINKS = [
   ['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#materials', 'Materials'], ['awards.html', 'Awards'],
   ['index.html#reviews', 'Reviews'], ['index.html#blog', 'Blog'], ['#footer', 'Contact'],
 ];
+const COLLECTOR_LINKS = [
+  ['/', 'Home'], ['/#why', 'About'], ['/team', 'Our Team'], ['/#materials', 'Materials'], ['/awards.html', 'Awards'],
+  ['/#reviews', 'Reviews'], ['/#blog', 'Blog'], ['#footer', 'Contact'],
+];
 
 const VARIANTS = {
   home: { headerClass: 'nav', brandHref: '#top', links: HOME_LINKS, desktopActive: 'Home', mobileActive: null },
   awards: { headerClass: 'nav nav-page', brandHref: 'index.html', links: AWARDS_LINKS, desktopActive: 'Awards', mobileActive: 'Awards' },
   team: { headerClass: 'nav nav-page', brandHref: 'index.html', links: TEAM_LINKS, desktopActive: 'Our Team', mobileActive: 'Our Team' },
+  collector: { headerClass: 'nav nav-page', brandHref: '/', links: COLLECTOR_LINKS, desktopActive: null, mobileActive: null },
 };
 
 export default function Navbar({ variant, scrolled }) {
-  const v = VARIANTS[variant];
+  const v = VARIANTS[variant] || VARIANTS.collector;
   const [open, setOpen] = useState(false);
   const closeMenu = () => setOpen(false);
 
@@ -29,7 +34,7 @@ export default function Navbar({ variant, scrolled }) {
     <>
       <header className={v.headerClass + (scrolled ? ' scrolled' : '')} id="siteNav">
         <div className="wrap nav-row">
-          <a href={v.brandHref} className="brand"><img src="assets/images/logo.png" alt="ScrapVenture logo" /></a>
+          <a href={v.brandHref} className="brand"><img src="/assets/images/logo.png" alt="ScrapVenture logo" /></a>
           <ul className="nav-links">
             {v.links.map(([href, label]) => (
               <li key={label}><a href={href} className={label === v.desktopActive ? 'active' : undefined}>{label}</a></li>

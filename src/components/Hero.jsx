@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import HeroAvatars from './HeroAvatars.jsx';
 import { ArrowIcon } from './icons.jsx';
 
@@ -23,9 +24,9 @@ export default function Hero() {
           <a href="#cta" className="btn btn-solid">Schedule a Pickup{' '}
             <ArrowIcon />
           </a>
-          <a href="#materials" className="btn btn-outline">Explore Materials{' '}
+          <Link to="/collector-registration" className="btn btn-outline">Become a Collector{' '}
             <ArrowIcon />
-          </a>
+          </Link>
         </div>
         <div className="hero-stats">
           <div className="hero-stat">
