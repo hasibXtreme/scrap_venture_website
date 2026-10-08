@@ -1,17 +1,17 @@
 const HOME = {
-  quick: [['#top', 'Home'], ['#why', 'About'], ['team.html', 'Our Team'], ['#how', 'How It Works'], ['awards.html', 'Awards'], ['#reviews', 'Reviews'], ['#blog', 'Blog']],
+  quick: [['#top', 'Home'], ['#why', 'About'], ['team.html', 'Our Team'], ['#how', 'How It Works'], ['awards.html', 'Awards'], ['#reviews', 'Reviews'], ['blog.html', 'Blog']],
   materials: '#materials',
 };
 const AWARDS = {
-  quick: [['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#how', 'How It Works'], ['awards.html', 'Awards'], ['index.html#reviews', 'Reviews'], ['index.html#blog', 'Blog']],
+  quick: [['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#how', 'How It Works'], ['awards.html', 'Awards'], ['index.html#reviews', 'Reviews'], ['blog.html', 'Blog']],
   materials: 'index.html#materials',
 };
 const TEAM = {
-  quick: [['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#how', 'How It Works'], ['awards.html', 'Awards'], ['index.html#reviews', 'Reviews'], ['index.html#blog', 'Blog']],
+  quick: [['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#how', 'How It Works'], ['awards.html', 'Awards'], ['index.html#reviews', 'Reviews'], ['blog.html', 'Blog']],
   materials: 'index.html#materials',
 };
 const COLLECTOR = {
-  quick: [['/', 'Home'], ['/#why', 'About'], ['/team', 'Our Team'], ['/#how', 'How It Works'], ['/awards.html', 'Awards'], ['/#reviews', 'Reviews'], ['/#blog', 'Blog']],
+  quick: [['/', 'Home'], ['/#why', 'About'], ['/team', 'Our Team'], ['/#how', 'How It Works'], ['/awards.html', 'Awards'], ['/#reviews', 'Reviews'], ['/blog', 'Blog']],
   materials: '/#materials',
 };
 

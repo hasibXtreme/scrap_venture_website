@@ -4,6 +4,7 @@ import Home from './pages/Home.jsx';
 import Awards from './pages/Awards.jsx';
 import Team from './pages/Team.jsx';
 import CollectorRegistration from './pages/CollectorRegistration.jsx';
+import Blog from './pages/Blog.jsx';
 
 function ScrollHandler() {
   const { pathname, hash } = useLocation();
@@ -35,6 +36,8 @@ export default function App() {
         <Route path="/collector-registration" element={<CollectorRegistration />} />
         <Route path="/collector-registration.html" element={<CollectorRegistration />} />
         <Route path="/collector" element={<CollectorRegistration />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog.html" element={<Blog />} />
       </Routes>
     </>
   );
