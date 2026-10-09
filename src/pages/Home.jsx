@@ -5,20 +5,16 @@ import HowItWorks from '../components/HowItWorks.jsx';
 import WhyScrapVenture from '../components/WhyScrapVenture.jsx';
 import AwardsMarquee from '../components/AwardsMarquee.jsx';
 import Reviews from '../components/Reviews.jsx';
-import Blog from '../components/Blog.jsx';
-import CtaFinal from '../components/CtaFinal.jsx';
 
 export default function Home() {
   return (
     <SiteLayout variant="home">
       <Hero />
       <Materials />
-      <HowItWorks />
       <WhyScrapVenture />
+      <HowItWorks />
       <AwardsMarquee />
       <Reviews />
-      <Blog />
-      <CtaFinal />
     </SiteLayout>
   );
 }

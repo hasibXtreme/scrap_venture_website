@@ -1,42 +1,124 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Reveal from './Reveal.jsx';
-import { ArrowIcon } from './icons.jsx';
+import { ArrowRightIcon } from './pickup/pickupIcons.jsx';
 
 const MATERIALS = [
-  { img: 'mat-paper.jpg', alt: 'Recycled paper materials', name: 'Paper', examples: 'Newsprint · Office Paper · Magazines', lg: true },
-  { img: 'mat-metal.jpg', alt: 'Scrap metal materials', name: 'Metal', examples: 'Copper · Aluminum · Iron' },
-  { img: 'mat-plastic.jpg', alt: 'Plastic bottle materials', name: 'Plastic', examples: 'PET · HDPE · Containers' },
-  { img: 'mat-ewaste.jpg', alt: 'Electronic waste materials', name: 'E-Waste', examples: 'Circuit Boards · Devices · Cables' },
-  { img: 'mat-cardboard.jpg', alt: 'Cardboard materials', name: 'Cardboard', examples: 'Boxes · Packaging · Cartons' },
+  {
+    name: 'Paper',
+    items: 'Newspapers, Office Paper, Magazines & Books',
+    img: 'mat-paper.jpg',
+    alt: 'Recycled paper materials',
+    badge: 'High Demand',
+    lg: true,
+  },
+  {
+    name: 'Metal',
+    items: 'Copper, Aluminum, Iron & Steel',
+    img: 'mat-metal.jpg',
+    alt: 'Scrap metal materials',
+    badge: 'Top Rate',
+  },
+  {
+    name: 'Plastic',
+    items: 'PET Bottles, Containers & Cans',
+    img: 'mat-plastic.jpg',
+    alt: 'Plastic bottle materials',
+    badge: 'Recyclable',
+  },
+  {
+    name: 'E-Waste',
+    items: 'Circuit Boards, Broken Devices, Cables & Laptops',
+    img: 'mat-ewaste.jpg',
+    alt: 'Electronic waste materials',
+    badge: 'Special Care',
+  },
+  {
+    name: 'Cardboard',
+    items: 'Boxes, Packaging & Cartons',
+    img: 'mat-cardboard.jpg',
+    alt: 'Cardboard materials',
+    badge: 'Bulk Pickup',
+  },
 ];
 
 export default function Materials() {
   return (
     <section className="materials" id="materials">
-      <div className="wrap">
-        <Reveal className="sec-head">
-          <div>
-            <p className="eyebrow">What We Collect</p>
-            <h2 className="title">Different scrap.<br />One purpose.</h2>
+      {/* Background Recycle Watermarks with increased opacity on Top-Left & Bottom-Right */}
+      <div className="mat-bg-deco" aria-hidden="true">
+        {/* Top-Left Authentic 3-Arrow Recycling Watermark */}
+        <img
+          src="assets/images/recycle.png"
+          alt=""
+          className="mat-bg-watermark mat-watermark-recycle-tl"
+          loading="lazy"
+        />
+
+        {/* Bottom-Right Authentic 3-Arrow Recycling Watermark */}
+        <img
+          src="assets/images/recycle.png"
+          alt=""
+          className="mat-bg-watermark mat-watermark-recycle-br"
+          loading="lazy"
+        />
+      </div>
+
+      <div className="wrap mat-container">
+        {/* Centered Modern Section Header */}
+        <Reveal className="mat-sec-header">
+          {/* Eyebrow Pill with Authentic 3-Arrow Recycling Icon */}
+          <div className="mat-eyebrow-pill">
+            <img
+              src="assets/images/recycle.png"
+              alt="Recycle Symbol"
+              className="mat-eyebrow-recycle-img"
+              width="17"
+              height="17"
+            />
+            <span>WHAT WE COLLECT</span>
           </div>
-          <p className="desc">From everyday paper to old electronics, we collect materials that deserve another life.</p>
+
+          <h2 className="mat-title">
+            Different scrap. <span className="mat-title-accent">One purpose.</span>
+          </h2>
+
+          <p className="mat-subtitle-lead">
+            From household recyclables to commercial discards, we collect, sort, and channel materials into verified eco-friendly recycling streams.
+          </p>
         </Reveal>
 
+        {/* Mosaic Grid with bottom-left material names & items list */}
         <Reveal className="mosaic">
           {MATERIALS.map((m) => (
-            <a href="#cta" className={'mat-card' + (m.lg ? ' lg' : '')} key={m.name}>
+            <Link
+              to="/book-pickup"
+              className={'mat-card' + (m.lg ? ' lg' : '')}
+              key={m.name}
+              aria-label={`Schedule pickup for ${m.name}`}
+            >
               <img src={`assets/images/${m.img}`} alt={m.alt} loading="lazy" />
+              <div className="mat-card-overlay" />
+
+              {/* Top Tag Badge */}
+              {m.badge && (
+                <div className="mat-card-top-badge">
+                  <span>{m.badge}</span>
+                </div>
+              )}
+
+              {/* Bottom Left Content */}
               <div className="mat-card-content">
                 <div className="m-name">{m.name}</div>
-                <div className="m-examples">{m.examples}</div>
-                <div className="m-link">Explore <ArrowIcon size={13} strokeWidth="2.6" /></div>
+                <p className="m-items">{m.items}</p>
               </div>
-            </a>
-          ))}
-        </Reveal>
 
-        <Reveal className="mat-footer">
-          <p>Don't see your material?</p>
-          <a href="#footer" className="m-link" style={{ color: 'var(--green)' }}>View All Materials <ArrowIcon size={13} strokeWidth="2.6" /></a>
+              {/* Bottom Right Arrow Icon */}
+              <div className="mat-card-arrow" aria-hidden="true">
+                <ArrowRightIcon size={14} color="#ffffff" />
+              </div>
+            </Link>
+          ))}
         </Reveal>
       </div>
     </section>

@@ -3,13 +3,14 @@ import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
 
 // Navbar + page content + Footer shared by both pages.
-export default function SiteLayout({ variant, main = false, mainClassName, children }) {
+// `main` wraps the content in <main class="awards-page-main"> like awards.html.
+export default function SiteLayout({ variant, main = false, mainClass, mainClassName, children }) {
   const scrolled = useSiteScroll();
-  const mainClass = mainClassName || (variant === 'team' ? 'team-page-main' : (variant === 'collector' ? 'collector-page-main' : 'awards-page-main'));
+  const cls = mainClass || mainClassName || (variant === 'team' ? 'team-page-main' : (variant === 'collector' ? 'collector-page-main' : 'awards-page-main'));
   return (
     <>
       <Navbar variant={variant} scrolled={scrolled} />
-      {main ? <main className={mainClass}>{children}</main> : children}
+      {main ? <main className={cls}>{children}</main> : children}
       <Footer variant={variant} />
     </>
   );

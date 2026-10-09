@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Reveal from './Reveal.jsx';
 import { ArrowIcon } from './icons.jsx';
 
@@ -9,9 +10,9 @@ export default function CtaFinal() {
       <Reveal className="wrap cta-inner">
         <h2>Your scrap has value.</h2>
         <p>Give it another life. We'll take care of the rest.</p>
-        <a href="#footer" className="btn btn-solid">Book a Pickup{' '}
-          <ArrowIcon />
-        </a>
+        <Link to="/book-pickup" className="btn btn-solid">
+          Book a Pickup <ArrowIcon />
+        </Link>
       </Reveal>
     </section>
   );

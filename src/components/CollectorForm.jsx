@@ -122,13 +122,14 @@ export default function CollectorForm() {
     }
 
     setErrors(errs);
-    return Object.keys(errs).length === 0;
+    return errs;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!validate()) {
-      const firstErrorKey = Object.keys(errors)[0];
+    const errs = validate();
+    const firstErrorKey = Object.keys(errs)[0];
+    if (firstErrorKey) {
       const el = document.getElementById(`${formId}-${firstErrorKey}`);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
@@ -309,7 +310,7 @@ export default function CollectorForm() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="e.g. Tanvir Ahmed"
+                  placeholder="Your Name"
                   className={`form-input ${errors.name ? 'input-error' : ''}`}
                   autoComplete="name"
                 />
@@ -333,7 +334,7 @@ export default function CollectorForm() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="e.g. tanvir.ahmed@gmail.com"
+                  placeholder="Your email address"
                   className={`form-input ${errors.email ? 'input-error' : ''}`}
                   autoComplete="email"
                 />
@@ -356,7 +357,7 @@ export default function CollectorForm() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  placeholder="e.g. 01712345678"
+                  placeholder="01XXXXXXXXX"
                   className={`form-input ${errors.phone ? 'input-error' : ''}`}
                   autoComplete="tel"
                 />
@@ -383,7 +384,7 @@ export default function CollectorForm() {
                   name="nid"
                   value={formData.nid}
                   onChange={handleInputChange}
-                  placeholder="10, 13, or 17 digit NID number"
+                  placeholder="National ID (NID) Number"
                   className={`form-input ${errors.nid ? 'input-error' : ''}`}
                   maxLength="17"
                 />

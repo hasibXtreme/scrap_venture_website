@@ -21,10 +21,18 @@ export default function Hero() {
           </div>
         </div>
         <div className="hero-ctas">
-          <a href="#cta" className="btn btn-solid">Schedule a Pickup{' '}
+          <Link
+            to="/book-pickup"
+            className="btn btn-solid"
+          >
+            Book a Pickup{' '}
             <ArrowIcon />
-          </a>
-          <Link to="/collector-registration" className="btn btn-outline">Become a Collector{' '}
+          </Link>
+          <Link
+            to="/become-a-collector"
+            className="btn btn-outline btn-glass hero-btn-collector"
+          >
+            Become a Collector{' '}
             <ArrowIcon />
           </Link>
         </div>

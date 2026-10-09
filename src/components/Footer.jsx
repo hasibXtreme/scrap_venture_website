@@ -1,28 +1,28 @@
 const HOME = {
-  quick: [['#top', 'Home'], ['#why', 'About'], ['team.html', 'Our Team'], ['#how', 'How It Works'], ['awards.html', 'Awards'], ['#reviews', 'Reviews'], ['#blog', 'Blog']],
+  quick: [['#top', 'Home'], ['#why', 'About'], ['#how', 'How It Works'], ['awards.html', 'Awards'], ['/team', 'Our Team'], ['#reviews', 'Reviews']],
   materials: '#materials',
 };
 const AWARDS = {
-  quick: [['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#how', 'How It Works'], ['awards.html', 'Awards'], ['index.html#reviews', 'Reviews'], ['index.html#blog', 'Blog']],
-  materials: 'index.html#materials',
+  quick: [['/', 'Home'], ['/#why', 'About'], ['/#how', 'How It Works'], ['awards.html', 'Awards'], ['/team', 'Our Team'], ['/#reviews', 'Reviews']],
+  materials: '/#materials',
+};
+const MARKETPLACE = {
+  quick: [['/', 'Home'], ['/marketplace', 'MarketPlace'], ['/team', 'Our Team'], ['awards.html', 'Awards'], ['/#reviews', 'Reviews']],
+  materials: '/#materials',
 };
 const TEAM = {
-  quick: [['index.html', 'Home'], ['index.html#why', 'About'], ['team.html', 'Our Team'], ['index.html#how', 'How It Works'], ['awards.html', 'Awards'], ['index.html#reviews', 'Reviews'], ['index.html#blog', 'Blog']],
-  materials: 'index.html#materials',
-};
-const COLLECTOR = {
-  quick: [['/', 'Home'], ['/#why', 'About'], ['/team', 'Our Team'], ['/#how', 'How It Works'], ['/awards.html', 'Awards'], ['/#reviews', 'Reviews'], ['/#blog', 'Blog']],
+  quick: [['/', 'Home'], ['/#why', 'About'], ['/#how', 'How It Works'], ['awards.html', 'Awards'], ['/team', 'Our Team'], ['/#reviews', 'Reviews']],
   materials: '/#materials',
 };
 
 export default function Footer({ variant }) {
-  const f = variant === 'home' ? HOME : (variant === 'team' ? TEAM : (variant === 'collector' ? COLLECTOR : AWARDS));
+  const f = variant === 'home' ? HOME : (variant === 'marketplace' ? MARKETPLACE : (variant === 'team' ? TEAM : AWARDS));
   return (
     <footer id="footer">
       <div className="wrap">
         <div className="foot-grid">
           <div className="foot-brand">
-            <img src="/assets/images/logo.png" alt="ScrapVenture logo" />
+            <img src="assets/images/logo.png" alt="ScrapVenture logo" />
             <p>ScrapVenture collects recyclable scrap straight from your doorstep and gives it a second life — for you, and for the planet.</p>
             <div className="foot-social">
               <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z" /></svg></a>
