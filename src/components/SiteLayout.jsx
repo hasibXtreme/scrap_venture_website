@@ -2,9 +2,17 @@ import useSiteScroll from '../hooks/useSiteScroll.js';
 import Navbar from './Navbar.jsx';
 import Footer from './Footer.jsx';
 
-// Navbar + page content + Footer shared by both pages.
+// Navbar + page content + Footer shared by pages.
 // `main` wraps the content in <main class="awards-page-main"> like awards.html.
-export default function SiteLayout({ variant, main = false, mainClass, mainClassName, children }) {
+export default function SiteLayout({
+  variant,
+  main = false,
+  mainClass,
+  mainClassName,
+  hideNav = false,
+  hideFooter = false,
+  children,
+}) {
   const scrolled = useSiteScroll();
   const cls = mainClass || mainClassName || (
     variant === 'team' ? 'team-page-main' : 
@@ -14,9 +22,9 @@ export default function SiteLayout({ variant, main = false, mainClass, mainClass
   );
   return (
     <>
-      <Navbar variant={variant} scrolled={scrolled} />
+      {!hideNav && <Navbar variant={variant} scrolled={scrolled} />}
       {main ? <main className={cls}>{children}</main> : children}
-      <Footer variant={variant} />
+      {!hideFooter && <Footer variant={variant} />}
     </>
   );
 }

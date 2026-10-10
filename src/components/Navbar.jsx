@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowIcon, DownloadIcon } from './icons.jsx';
+import { ArrowIcon, DownloadIcon, UserIcon, TruckIcon, ChevronDownIcon } from './icons.jsx';
 
 const HOME_LINKS = [
   ['#top', 'Home'],
@@ -134,7 +134,37 @@ const VARIANTS = {
 export default function Navbar({ variant, scrolled }) {
   const v = VARIANTS[variant] || VARIANTS.home;
   const [open, setOpen] = useState(false);
-  const closeMenu = () => setOpen(false);
+  const [loginMenuOpen, setLoginMenuOpen] = useState(false);
+  const loginDropdownRef = useRef(null);
+
+  const closeMenu = () => {
+    setOpen(false);
+    setLoginMenuOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        loginDropdownRef.current &&
+        !loginDropdownRef.current.contains(event.target)
+      ) {
+        setLoginMenuOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setLoginMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   return (
     <>
@@ -177,12 +207,65 @@ export default function Navbar({ variant, scrolled }) {
               <DownloadIcon size={16} />
               <span>Download App</span>
             </a>
-            <Link
-              to="/book-pickup"
-              className="btn btn-solid"
-            >
-              Book a Pickup <ArrowIcon />
-            </Link>
+
+            {/* Login Button with Interactive Dropdown */}
+            <div className="nav-login-wrapper" ref={loginDropdownRef}>
+              <button
+                type="button"
+                className={`btn btn-solid nav-login-trigger ${loginMenuOpen ? 'active' : ''}`}
+                onClick={() => setLoginMenuOpen((prev) => !prev)}
+                aria-haspopup="true"
+                aria-expanded={loginMenuOpen}
+              >
+                <UserIcon size={16} />
+                <span>Login</span>
+                <ChevronDownIcon
+                  size={14}
+                  className={`nav-login-caret ${loginMenuOpen ? 'rotate' : ''}`}
+                />
+              </button>
+
+              {loginMenuOpen && (
+                <div className="nav-login-dropdown" role="menu">
+                  <div className="nav-login-dropdown-header">
+                    <span>Choose Login Portal</span>
+                  </div>
+
+                  <Link
+                    to="/customer-login"
+                    className="nav-login-dropdown-item"
+                    role="menuitem"
+                    onClick={() => setLoginMenuOpen(false)}
+                  >
+                    <div className="nav-login-item-icon nav-login-item-icon--customer">
+                      <UserIcon size={18} />
+                    </div>
+                    <div className="nav-login-item-info">
+                      <span className="nav-login-item-title">User Login</span>
+                      <span className="nav-login-item-sub">Sell scrap & manage bookings</span>
+                    </div>
+                    <ArrowIcon size={13} className="nav-login-item-arrow" />
+                  </Link>
+
+                  <Link
+                    to="/collector-login"
+                    className="nav-login-dropdown-item"
+                    role="menuitem"
+                    onClick={() => setLoginMenuOpen(false)}
+                  >
+                    <div className="nav-login-item-icon nav-login-item-icon--collector">
+                      <TruckIcon size={18} />
+                    </div>
+                    <div className="nav-login-item-info">
+                      <span className="nav-login-item-title">Collector Login</span>
+                      <span className="nav-login-item-sub">Authorized collection partners</span>
+                    </div>
+                    <ArrowIcon size={13} className="nav-login-item-arrow" />
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <button
               className={'burger' + (open ? ' open' : '')}
               id="burgerBtn"
@@ -230,18 +313,31 @@ export default function Navbar({ variant, scrolled }) {
           href={v.downloadHref}
           className="btn btn-outline"
           onClick={closeMenu}
-          style={{ marginBottom: 10, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+          style={{ marginBottom: 12, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
         >
           <DownloadIcon size={18} />
           <span>Download App</span>
         </a>
-        <Link
-          to="/book-pickup"
-          className="btn btn-solid"
-          onClick={closeMenu}
-        >
-          Book a Pickup →
-        </Link>
+
+        {/* Mobile Login Options */}
+        <div className="mobile-login-box">
+          <Link
+            to="/customer-login"
+            className="btn btn-solid mobile-login-btn"
+            onClick={closeMenu}
+          >
+            <UserIcon size={16} />
+            <span>User Login</span>
+          </Link>
+          <Link
+            to="/collector-login"
+            className="btn btn-outline mobile-login-btn"
+            onClick={closeMenu}
+          >
+            <TruckIcon size={16} />
+            <span>Collector Login</span>
+          </Link>
+        </div>
       </div>
     </>
   );

@@ -1,6 +1,15 @@
 import { useState, useId } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowIcon } from './icons.jsx';
+import {
+  ArrowIcon,
+  LockIcon,
+  EyeIcon,
+  EyeOffIcon,
+  MailIcon,
+  UserIcon,
+  CheckCircleIcon,
+  TruckIcon,
+} from './icons.jsx';
 import {
   BANGLADESH_DIVISIONS,
   BANGLADESH_DISTRICTS,
@@ -10,20 +19,26 @@ import {
 export default function CollectorForm() {
   const formId = useId();
 
+  // Strictly mapped to scrap_collector table in backend db.ts:
+  // name, email, password, nid, division, district, thana, address, role, is_verified
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    password: '',
+    confirmPassword: '',
     nid: '',
+    phone: '',
     division: '',
     district: '',
     thana: '',
     customThana: '',
-    vehicle: '',
-    experience: '1-2 Years',
+    address: '',
+    vehicle: 'Van / Three-Wheeler',
     agreeTerms: true,
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
@@ -69,18 +84,40 @@ export default function CollectorForm() {
   const validate = () => {
     const errs = {};
 
-    // Name
+    // Name (db.ts: table.string('name'))
     if (!formData.name.trim()) {
       errs.name = 'Full name is required';
     } else if (formData.name.trim().length < 3) {
       errs.name = 'Name must be at least 3 characters';
     }
 
-    // Email
+    // Email (db.ts: table.string('email').notNullable())
     if (!formData.email.trim()) {
       errs.email = 'Email address is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       errs.email = 'Please enter a valid email address';
+    }
+
+    // Password (db.ts: table.string('password').notNullable())
+    if (!formData.password) {
+      errs.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      errs.password = 'Password must be at least 6 characters';
+    }
+
+    // Confirm Password
+    if (!formData.confirmPassword) {
+      errs.confirmPassword = 'Confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      errs.confirmPassword = 'Passwords do not match';
+    }
+
+    // NID (db.ts: table.string('nid').notNullable())
+    const cleanNid = formData.nid.replace(/[\s-]/g, '');
+    if (!cleanNid) {
+      errs.nid = 'National ID (NID) number is required';
+    } else if (!/^\d{10}$|^\d{13}$|^\d{17}$/.test(cleanNid)) {
+      errs.nid = 'NID must be 10, 13, or 17 numeric digits';
     }
 
     // Phone
@@ -91,29 +128,28 @@ export default function CollectorForm() {
       errs.phone = 'Enter a valid Bangladesh phone number (e.g. 01712345678)';
     }
 
-    // NID
-    const cleanNid = formData.nid.replace(/[\s-]/g, '');
-    if (!cleanNid) {
-      errs.nid = 'National ID (NID) number is required';
-    } else if (!/^\d{10}$|^\d{13}$|^\d{17}$/.test(cleanNid)) {
-      errs.nid = 'NID must be 10, 13, or 17 numeric digits';
-    }
-
-    // Division
+    // Division (db.ts: table.string('division').notNullable())
     if (!formData.division) {
       errs.division = 'Please select your division';
     }
 
-    // District
+    // District (db.ts: table.string('district').notNullable())
     if (!formData.district) {
       errs.district = 'Please select your district';
     }
 
-    // Thana
+    // Thana (db.ts: table.string('thana').notNullable())
     const finalThana =
       formData.thana === 'Other' ? formData.customThana.trim() : formData.thana;
     if (!finalThana) {
       errs.thana = 'Please specify your thana / police station';
+    }
+
+    // Address (db.ts: table.string('address').notNullable())
+    if (!formData.address.trim()) {
+      errs.address = 'Street / hub / warehouse address is required';
+    } else if (formData.address.trim().length < 5) {
+      errs.address = 'Please enter a detailed physical address';
     }
 
     // Terms
@@ -137,22 +173,45 @@ export default function CollectorForm() {
 
     setIsSubmitting(true);
 
-    // Simulate network API submission
+    // Simulate registration submission matching scrap_collector table
     setTimeout(() => {
       setIsSubmitting(false);
       const appRef = 'SV-COL-' + Math.floor(10000 + Math.random() * 90000);
       const finalThana =
         formData.thana === 'Other' ? formData.customThana.trim() : formData.thana;
-      setSubmittedData({
-        ...formData,
-        finalThana,
+
+      const collectorPayload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+        nid: formData.nid.trim(),
+        phone: formData.phone.trim(),
+        phone_number: formData.phone.trim(),
+        division: formData.division,
+        district: formData.district,
+        thana: finalThana,
+        address: formData.address.trim(),
+        role: 'collector',
+        is_verified: false,
+        vehicle: formData.vehicle,
         referenceId: appRef,
         date: new Date().toLocaleDateString('en-GB', {
           day: 'numeric',
           month: 'short',
           year: 'numeric',
         }),
-      });
+      };
+
+      // Store in localStorage for session test
+      const stored = JSON.parse(
+        localStorage.getItem('scrapventure_registered_collectors') || '[]'
+      );
+      localStorage.setItem(
+        'scrapventure_registered_collectors',
+        JSON.stringify([collectorPayload, ...stored])
+      );
+
+      setSubmittedData(collectorPayload);
       window.scrollTo({ top: 300, behavior: 'smooth' });
     }, 700);
   };
@@ -162,14 +221,16 @@ export default function CollectorForm() {
     setFormData({
       name: '',
       email: '',
-      phone: '',
+      password: '',
+      confirmPassword: '',
       nid: '',
+      phone: '',
       division: '',
       district: '',
       thana: '',
       customThana: '',
-      vehicle: '',
-      experience: '1-2 Years',
+      address: '',
+      vehicle: 'Van / Three-Wheeler',
       agreeTerms: true,
     });
     setErrors({});
@@ -180,23 +241,19 @@ export default function CollectorForm() {
       <div className="collector-success-card">
         <div className="collector-success-icon-wrap">
           <div className="collector-success-badge">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 6L9 17l-5-5" />
-            </svg>
+            <CheckCircleIcon size={38} />
           </div>
         </div>
 
-        <div className="collector-success-header">
-          <span className="collector-tag">Application Submitted</span>
-          <h2 className="collector-success-title">Welcome to the ScrapVenture Fleet!</h2>
-          <p className="collector-success-desc">
-            Your collector registration has been successfully received. Our regional field coordinator for{' '}
-            <strong>{submittedData.finalThana}, {submittedData.district}</strong> will review your details and reach out within 24–48 hours.
-          </p>
-        </div>
+        <h3 className="collector-form-title" style={{ marginBottom: 8 }}>
+          Application Submitted Successfully!
+        </h3>
+        <p className="collector-form-sub" style={{ marginBottom: 24 }}>
+          Thank you, <strong>{submittedData.name}</strong>. Your collector profile has been submitted and is queued for verification.
+        </p>
 
         <div className="collector-summary-box">
-          <div className="collector-summary-head">
+          <div className="collector-summary-top">
             <span className="collector-summary-lbl">Application Reference</span>
             <span className="collector-summary-ref">{submittedData.referenceId}</span>
           </div>
@@ -207,12 +264,12 @@ export default function CollectorForm() {
               <span className="val">{submittedData.name}</span>
             </div>
             <div className="collector-summary-item">
-              <span className="lbl">Phone Number</span>
-              <span className="val">{submittedData.phone}</span>
-            </div>
-            <div className="collector-summary-item">
               <span className="lbl">Email Address</span>
               <span className="val">{submittedData.email}</span>
+            </div>
+            <div className="collector-summary-item">
+              <span className="lbl">Phone Number</span>
+              <span className="val">{submittedData.phone}</span>
             </div>
             <div className="collector-summary-item">
               <span className="lbl">NID Number</span>
@@ -228,49 +285,55 @@ export default function CollectorForm() {
             </div>
             <div className="collector-summary-item">
               <span className="lbl">District &amp; Thana</span>
-              <span className="val">{submittedData.finalThana}, {submittedData.district}</span>
+              <span className="val">
+                {submittedData.thana}, {submittedData.district}
+              </span>
+            </div>
+            <div className="collector-summary-item" style={{ gridColumn: 'span 2' }}>
+              <span className="lbl">Physical Hub / Address</span>
+              <span className="val">{submittedData.address}</span>
             </div>
             <div className="collector-summary-item">
-              <span className="lbl">Transport Type</span>
-              <span className="val">{submittedData.vehicle}</span>
+              <span className="lbl">Account Role</span>
+              <span className="val" style={{ textTransform: 'capitalize' }}>{submittedData.role}</span>
             </div>
             <div className="collector-summary-item">
-              <span className="lbl">Experience Level</span>
-              <span className="val">{submittedData.experience}</span>
+              <span className="lbl">Verification Status</span>
+              <span className="val" style={{ color: '#d97706', fontWeight: 700 }}>Pending Verification</span>
             </div>
           </div>
         </div>
 
         <div className="collector-next-steps">
-          <h4>Next Steps for Onboarding</h4>
+          <h4>Next Steps for Verification</h4>
           <ol className="collector-steps-list">
             <li>
               <span className="step-num">1</span>
               <div>
-                <strong>Phone Verification:</strong> Our local hub officer will contact you on <strong>{submittedData.phone}</strong> to confirm your availability.
+                <strong>Hub Review:</strong> Our operations controller will cross-check your NID and territory within 24 hours.
               </div>
             </li>
             <li>
               <span className="step-num">2</span>
               <div>
-                <strong>Kit &amp; ID Pickup:</strong> Receive your official ScrapVenture collector badge, certified digital weighing scale, and safety uniform.
+                <strong>Scale &amp; ID Handover:</strong> Receive your authorized digital weighing scale, badge, and ScrapVenture credentials.
               </div>
             </li>
             <li>
               <span className="step-num">3</span>
               <div>
-                <strong>Start Earning:</strong> Activate the ScrapVenture Partner App and begin collecting high-value recyclables in your neighborhood!
+                <strong>Start Collecting:</strong> Sign in with your registered email and password on the Collector Portal!
               </div>
             </li>
           </ol>
         </div>
 
-        <div className="collector-success-actions">
-          <Link to="/" className="btn btn-solid">
-            Return to Homepage <ArrowIcon />
+        <div className="collector-success-actions" style={{ marginTop: 24, display: 'flex', gap: 14, justifyContent: 'center' }}>
+          <Link to="/collector-login" className="btn btn-solid">
+            Go to Collector Login <ArrowIcon />
           </Link>
           <button type="button" onClick={handleReset} className="btn btn-ghost-dark">
-            Register Another Collector
+            Register Another Partner
           </button>
         </div>
       </div>
@@ -280,37 +343,32 @@ export default function CollectorForm() {
   return (
     <div>
 
-      <div className="collector-form-header">
-        <h3 className="collector-form-title">Collector Registration Form</h3>
-      </div>
 
       <form className="collector-form" onSubmit={handleSubmit} noValidate>
-
-        {/* Section 1: Personal Details */}
+        {/* Section 1: Personal Details & Security Credentials */}
         <div className="form-section">
           <div className="form-section-title">
-            <h4>Personal Information</h4>
-            <p>Your primary contact &amp; identity details</p>
+            <h4>Personal Information &amp; Security Credentials</h4>
+            <p>Your primary contact, legal identity, and portal credentials</p>
           </div>
 
           <div className="form-grid">
-            {/* Full Name */}
+            {/* Full Name (name) */}
             <div className="form-group">
               <label htmlFor={`${formId}-name`} className="form-label">
                 Full Name / আপনার নাম <span className="req">*</span>
               </label>
               <div className="input-wrap">
-                <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
+                <span className="input-icon">
+                  <UserIcon size={18} />
+                </span>
                 <input
                   id={`${formId}-name`}
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Full Name / আপনার নাম"
+                  placeholder="e.g. Rafiqul Islam / রফিকুল ইসলাম"
                   className={`form-input ${errors.name ? 'input-error' : ''}`}
                   autoComplete="name"
                 />
@@ -318,23 +376,22 @@ export default function CollectorForm() {
               {errors.name && <span className="field-error">{errors.name}</span>}
             </div>
 
-            {/* Email Address */}
+            {/* Email Address (email) */}
             <div className="form-group">
               <label htmlFor={`${formId}-email`} className="form-label">
                 Email Address / আপনার ইমেইল <span className="req">*</span>
               </label>
               <div className="input-wrap">
-                <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                </svg>
+                <span className="input-icon">
+                  <MailIcon size={18} />
+                </span>
                 <input
                   id={`${formId}-email`}
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="Email Address / আপনার ইমেইল"
+                  placeholder="collector@example.com"
                   className={`form-input ${errors.email ? 'input-error' : ''}`}
                   autoComplete="email"
                 />
@@ -342,31 +399,73 @@ export default function CollectorForm() {
               {errors.email && <span className="field-error">{errors.email}</span>}
             </div>
 
-            {/* Phone Number */}
+            {/* Password (password) */}
             <div className="form-group">
-              <label htmlFor={`${formId}-phone`} className="form-label">
-                Phone Number <span className="req">*</span>
+              <label htmlFor={`${formId}-password`} className="form-label">
+                Password / পাসওয়ার্ড <span className="req">*</span>
               </label>
               <div className="input-wrap">
-                <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                </svg>
+                <span className="input-icon">
+                  <LockIcon size={18} />
+                </span>
                 <input
-                  id={`${formId}-phone`}
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
+                  id={`${formId}-password`}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
                   onChange={handleInputChange}
-                  placeholder="01XXXXXXXXX"
-                  className={`form-input ${errors.phone ? 'input-error' : ''}`}
-                  autoComplete="tel"
+                  placeholder="Minimum 6 characters"
+                  className={`form-input has-toggle ${errors.password ? 'input-error' : ''}`}
+                  autoComplete="new-password"
                 />
+                <button
+                  type="button"
+                  className="input-toggle-btn"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  tabIndex="-1"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                </button>
               </div>
-              {errors.phone && <span className="field-error">{errors.phone}</span>}
-              <span className="field-hint">Used for order alerts and instant payment notifications</span>
+              {errors.password && <span className="field-error">{errors.password}</span>}
             </div>
 
-            {/* NID Number */}
+            {/* Confirm Password */}
+            <div className="form-group">
+              <label htmlFor={`${formId}-confirmPassword`} className="form-label">
+                Confirm Password / পাসওয়ার্ড নিশ্চিত করুন <span className="req">*</span>
+              </label>
+              <div className="input-wrap">
+                <span className="input-icon">
+                  <LockIcon size={18} />
+                </span>
+                <input
+                  id={`${formId}-confirmPassword`}
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  placeholder="Re-enter password"
+                  className={`form-input has-toggle ${errors.confirmPassword ? 'input-error' : ''}`}
+                  autoComplete="new-password"
+                />
+                <button
+                  type="button"
+                  className="input-toggle-btn"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  tabIndex="-1"
+                  aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirmPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <span className="field-error">{errors.confirmPassword}</span>
+              )}
+            </div>
+
+            {/* National ID (nid) */}
             <div className="form-group">
               <label htmlFor={`${formId}-nid`} className="form-label">
                 National ID (NID) Number / জাতীয় পরিচয়পত্র নম্বর <span className="req">*</span>
@@ -384,26 +483,50 @@ export default function CollectorForm() {
                   name="nid"
                   value={formData.nid}
                   onChange={handleInputChange}
-                  placeholder="NID Number / জাতীয় পরিচয়পত্র নম্বর"
+                  placeholder="10, 13, or 17 digit NID number"
                   className={`form-input ${errors.nid ? 'input-error' : ''}`}
                   maxLength="17"
                 />
               </div>
               {errors.nid && <span className="field-error">{errors.nid}</span>}
-              <span className="field-hint">Required for verified collector verification &amp; trust badge</span>
+              <span className="field-hint">Required for official verification &amp; field trust badge</span>
+            </div>
+
+            {/* Phone Number */}
+            <div className="form-group">
+              <label htmlFor={`${formId}-phone`} className="form-label">
+                Phone Number / মোবাইল নম্বর <span className="req">*</span>
+              </label>
+              <div className="input-wrap">
+                <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                <input
+                  id={`${formId}-phone`}
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="01XXXXXXXXX"
+                  className={`form-input ${errors.phone ? 'input-error' : ''}`}
+                  autoComplete="tel"
+                />
+              </div>
+              {errors.phone && <span className="field-error">{errors.phone}</span>}
+              <span className="field-hint">Used for dispatch orders and SMS pickup notifications</span>
             </div>
           </div>
         </div>
 
-        {/* Section 2: Operational Location */}
+        {/* Section 2: Operational Location & Physical Address */}
         <div className="form-section">
           <div className="form-section-title">
-            <h4>Operational Location &amp; Coverage</h4>
-            <p>Define your primary doorstep collection territory in Bangladesh</p>
+            <h4>Operational Territory &amp; Physical Address</h4>
+            <p>Coverage division, district, thana, and physical address (db.ts: division, district, thana, address)</p>
           </div>
 
           <div className="form-grid form-grid-3">
-            {/* Division */}
+            {/* Division (division) */}
             <div className="form-group">
               <label htmlFor={`${formId}-division`} className="form-label">
                 Division <span className="req">*</span>
@@ -428,7 +551,7 @@ export default function CollectorForm() {
               {errors.division && <span className="field-error">{errors.division}</span>}
             </div>
 
-            {/* District */}
+            {/* District (district) */}
             <div className="form-group">
               <label htmlFor={`${formId}-district`} className="form-label">
                 District <span className="req">*</span>
@@ -456,7 +579,7 @@ export default function CollectorForm() {
               {errors.district && <span className="field-error">{errors.district}</span>}
             </div>
 
-            {/* Thana */}
+            {/* Thana (thana) */}
             <div className="form-group">
               <label htmlFor={`${formId}-thana`} className="form-label">
                 Thana / Upazila <span className="req">*</span>
@@ -486,17 +609,13 @@ export default function CollectorForm() {
             </div>
           </div>
 
-          {/* Custom Thana input if "Other" is chosen or district has no popular presets */}
+          {/* Custom Thana input */}
           {formData.thana === 'Other' && (
-            <div className="form-group custom-thana-group">
+            <div className="form-group custom-thana-group" style={{ marginTop: 14 }}>
               <label htmlFor={`${formId}-customThana`} className="form-label">
                 Specify Thana / Police Station Name / থানার নাম <span className="req">*</span>
               </label>
               <div className="input-wrap">
-                <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
                 <input
                   id={`${formId}-customThana`}
                   type="text"
@@ -509,17 +628,35 @@ export default function CollectorForm() {
               </div>
             </div>
           )}
+
+          {/* Detailed Physical Address (address) */}
+          <div className="form-group" style={{ marginTop: 18 }}>
+            <label htmlFor={`${formId}-address`} className="form-label">
+              Detailed Address / Warehouse / Hub / আপনার ঠিকানা <span className="req">*</span>
+            </label>
+            <div className="input-wrap">
+              <input
+                id={`${formId}-address`}
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="e.g. Shop 14, Ring Road, Mohammadpur, Dhaka"
+                className={`form-input ${errors.address ? 'input-error' : ''}`}
+              />
+            </div>
+            {errors.address && <span className="field-error">{errors.address}</span>}
+          </div>
         </div>
 
-        {/* Section 3: Logistics & Equipment */}
+        {/* Section 3: Transport Logistics */}
         <div className="form-section">
           <div className="form-section-title">
-            <h4>Logistics &amp; Capacity</h4>
-            <p>Helps us match you with the right scrap volume pickups</p>
+            <h4>Collection Logistics</h4>
+            <p>Preferred transport for scrap haulage</p>
           </div>
 
           <div className="form-grid">
-            {/* Transport / Vehicle Type */}
             <div className="form-group">
               <label htmlFor={`${formId}-vehicle`} className="form-label">
                 Transport / Vehicle Type / যানবাহনের ধরন
@@ -532,7 +669,6 @@ export default function CollectorForm() {
                   onChange={handleInputChange}
                   className="form-select"
                 >
-                  <option value="" disabled hidden>Select Vehicle Type... / যানবাহনের ধরন নির্বাচন করুন</option>
                   <option value="Van / Three-Wheeler">Van / Three-Wheeler (রিকশা ভ্যান)</option>
                   <option value="Motorcycle / Scooter">Motorcycle / Scooter (মোটরসাইকেল / স্কুটার)</option>
                   <option value="Pickup Truck / Mini Truck">Pickup Truck / Mini Truck (পিকআপ / মিনি ট্রাক)</option>
@@ -542,8 +678,6 @@ export default function CollectorForm() {
                 <span className="select-arrow">▼</span>
               </div>
             </div>
-
-
           </div>
         </div>
 
@@ -558,7 +692,7 @@ export default function CollectorForm() {
             />
             <span className="checkbox-custom"></span>
             <span className="checkbox-text">
-              I confirm that the provided NID and personal information are accurate, and I agree to uphold ScrapVenture's verified collector code of conduct, accurate weight standards, and fair customer service.
+              I confirm that the provided NID, password, and address information are accurate, and I agree to uphold ScrapVenture's verified collector standards, digital weighment protocols, and fair customer service.
             </span>
           </label>
           {errors.agreeTerms && <span className="field-error">{errors.agreeTerms}</span>}
@@ -573,7 +707,7 @@ export default function CollectorForm() {
           >
             {isSubmitting ? (
               <>
-                <span className="spinner"></span> Processing Application...
+                <span className="spinner"></span> Processing Collector Application...
               </>
             ) : (
               <>
@@ -581,13 +715,14 @@ export default function CollectorForm() {
               </>
             )}
           </button>
-          <span className="form-security-note">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-            Zero registration fee. Your data is strictly encrypted and protected.
-          </span>
+        </div>
+
+        {/* Switch Footer */}
+        <div className="login-switch-footer">
+          <div className="login-switch-text">
+            Already registered as a collector?{' '}
+            <Link to="/collector-login">Sign In to Collector Portal</Link>
+          </div>
         </div>
       </form>
     </div>

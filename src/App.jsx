@@ -6,6 +6,10 @@ import Marketplace from './pages/Marketplace.jsx';
 import BookPickup from './pages/BookPickup.jsx';
 import Team from './pages/Team.jsx';
 import CollectorRegistration from './pages/CollectorRegistration.jsx';
+import CustomerRegistration from './pages/CustomerRegistration.jsx';
+import CustomerLogin from './pages/CustomerLogin.jsx';
+import CollectorLogin from './pages/CollectorLogin.jsx';
+import AdminLogin from './pages/AdminLogin.jsx';
 import Blog from './pages/Blog.jsx';
 import Contact from './pages/Contact.jsx';
 
@@ -53,11 +57,35 @@ export default function App() {
       <Route path="/marketplace.html" element={<Marketplace />} />
       <Route path="/book-pickup" element={<BookPickup />} />
       <Route path="/book-pickup.html" element={<BookPickup />} />
+      {/* Collector Registration Routes */}
       <Route path="/become-a-collector" element={<CollectorRegistration />} />
       <Route path="/become-a-collector.html" element={<CollectorRegistration />} />
       <Route path="/collector" element={<CollectorRegistration />} />
       <Route path="/collector.html" element={<CollectorRegistration />} />
       <Route path="/become-collector" element={<CollectorRegistration />} />
+
+      {/* Customer Registration Routes */}
+      <Route path="/customer-register" element={<CustomerRegistration />} />
+      <Route path="/customer-register.html" element={<CustomerRegistration />} />
+      <Route path="/customer-registration" element={<CustomerRegistration />} />
+      <Route path="/register/customer" element={<CustomerRegistration />} />
+
+      {/* Customer Login Routes */}
+      <Route path="/customer-login" element={<CustomerLogin />} />
+      <Route path="/customer-login.html" element={<CustomerLogin />} />
+      <Route path="/login/customer" element={<CustomerLogin />} />
+
+      {/* Collector Login Routes */}
+      <Route path="/collector-login" element={<CollectorLogin />} />
+      <Route path="/collector-login.html" element={<CollectorLogin />} />
+      <Route path="/login/collector" element={<CollectorLogin />} />
+
+      {/* Admin Login Routes (URL-only access, not linked anywhere in navigation) */}
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/admin-login.html" element={<AdminLogin />} />
+      <Route path="/admin" element={<AdminLogin />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog.html" element={<Blog />} />
       <Route path="/contact" element={<Contact />} />
