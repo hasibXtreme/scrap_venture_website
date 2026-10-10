@@ -39,7 +39,10 @@ export default function OrderTrackingModal() {
         {/* Header */}
         <div className="mp-tracking-header">
           <div className="mp-track-title-box">
-            <span className="mp-track-badge">🎉 Live Order Tracking</span>
+            <span className="mp-track-badge">
+              <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e', marginRight: '6px' }}></span>
+              Live Order Tracking
+            </span>
             <h2>Order #{activeOrder.id}</h2>
             <p className="mp-track-date">
               Placed on {new Date(activeOrder.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}

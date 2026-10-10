@@ -6,6 +6,8 @@ import Marketplace from './pages/Marketplace.jsx';
 import BookPickup from './pages/BookPickup.jsx';
 import Team from './pages/Team.jsx';
 import CollectorRegistration from './pages/CollectorRegistration.jsx';
+import Blog from './pages/Blog.jsx';
+import Contact from './pages/Contact.jsx';
 
 export default function App() {
   const location = useLocation();
@@ -56,6 +58,11 @@ export default function App() {
       <Route path="/collector" element={<CollectorRegistration />} />
       <Route path="/collector.html" element={<CollectorRegistration />} />
       <Route path="/become-collector" element={<CollectorRegistration />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog.html" element={<Blog />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/contact.html" element={<Contact />} />
+      <Route path="/contact-us" element={<Contact />} />
     </Routes>
   );
 }

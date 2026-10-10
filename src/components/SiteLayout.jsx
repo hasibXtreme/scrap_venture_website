@@ -6,7 +6,12 @@ import Footer from './Footer.jsx';
 // `main` wraps the content in <main class="awards-page-main"> like awards.html.
 export default function SiteLayout({ variant, main = false, mainClass, mainClassName, children }) {
   const scrolled = useSiteScroll();
-  const cls = mainClass || mainClassName || (variant === 'team' ? 'team-page-main' : (variant === 'collector' ? 'collector-page-main' : 'awards-page-main'));
+  const cls = mainClass || mainClassName || (
+    variant === 'team' ? 'team-page-main' : 
+    (variant === 'collector' ? 'collector-page-main' : 
+    (variant === 'blog' ? 'blog-page-main' : 
+    (variant === 'contact' ? 'contact-page-main' : 'awards-page-main')))
+  );
   return (
     <>
       <Navbar variant={variant} scrolled={scrolled} />

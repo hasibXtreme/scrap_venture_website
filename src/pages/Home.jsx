@@ -1,5 +1,6 @@
 import SiteLayout from '../components/SiteLayout.jsx';
 import Hero from '../components/Hero.jsx';
+import SupportedBy from '../components/SupportedBy.jsx';
 import Materials from '../components/Materials.jsx';
 import HowItWorks from '../components/HowItWorks.jsx';
 import WhyScrapVenture from '../components/WhyScrapVenture.jsx';
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <SiteLayout variant="home">
       <Hero />
+      <SupportedBy />
       <Materials />
       <WhyScrapVenture />
       <HowItWorks />

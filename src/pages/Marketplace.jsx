@@ -40,8 +40,35 @@ function MarketplaceContent() {
       <div className="marketplace-app">
         {/* Toast Notification */}
         {toast && (
-          <div className={`mp-floating-toast ${toast.type}`}>
-            {toast.message}
+          <div className={`mp-floating-toast ${toast.type || ''}`}>
+            <span className="mp-floating-toast-icon">
+              {toast.type === 'cart' && (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              )}
+              {toast.type === 'wishlist' && (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              )}
+              {(toast.type === 'success' || !toast.type) && (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              )}
+              {toast.type === 'info' && (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              )}
+            </span>
+            <span className="mp-floating-toast-msg">{toast.message}</span>
           </div>
         )}
 
@@ -201,18 +228,6 @@ function MarketplaceContent() {
                 </div>
               </div>
 
-              {/* Sidebar Eco Trust Card */}
-              <div className="mp-sidebar-eco-card">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="23 4 23 10 17 10"></polyline>
-                  <polyline points="1 20 1 14 7 14"></polyline>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                </svg>
-                <div>
-                  <strong>Circular Guarantee</strong>
-                  <p>100% verified recycled post-consumer waste transformed in Bangladesh.</p>
-                </div>
-              </div>
             </aside>
 
             {/* Right Product Catalog Area */}

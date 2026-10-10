@@ -14,12 +14,74 @@ function getCardsPerPage() {
 const TOTAL_CARDS = reviews.length;
 const getTotalPages = () => Math.ceil(TOTAL_CARDS / getCardsPerPage());
 
+function useCountUp(endValue, duration = 1400, decimals = 1, triggerRef = null) {
+  const [count, setCount] = useState(0);
+  const [inView, setInView] = useState(!triggerRef);
+
+  useEffect(() => {
+    if (!triggerRef || !triggerRef.current) {
+      setInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(triggerRef.current);
+    return () => observer.disconnect();
+  }, [triggerRef]);
+
+  useEffect(() => {
+    if (!inView) return;
+
+    let frameId;
+    let startTime = null;
+    const easeFn = (t) => t * (2 - t);
+
+    const animate = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeFn(progress);
+      const currentVal = eased * endValue;
+
+      setCount(currentVal);
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animate);
+      } else {
+        setCount(endValue);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+    };
+  }, [inView, endValue, duration]);
+
+  if (decimals > 0) {
+    return count.toFixed(decimals);
+  }
+  return Math.floor(count).toLocaleString('en-US');
+}
+
 export default function Reviews() {
   const trackRef = useRef(null);
   const pageRef = useRef(0);
   const timerRef = useRef(null);
   const pausedRef = useRef(false);
   const touchStartX = useRef(0);
+  const scoreBadgeRef = useRef(null);
+  const reviewScore = useCountUp(4.8, 1400, 1, scoreBadgeRef);
   const [page, setPage] = useState(0);
   const [layoutTick, setLayoutTick] = useState(0);
 
@@ -97,19 +159,20 @@ export default function Reviews() {
   return (
     <section className="reviews" id="reviews">
       <div className="wrap">
-        <Reveal className="sec-head">
-          <div>
-            <p className="eyebrow">Customer Reviews</p>
-            <h2 className="title">Trusted by thousands of<br />households across Dhaka.</h2>
-          </div>
-          <div className="reviews-summary-badge">
+        <Reveal className="reviews-head">
+          <p className="eyebrow">Customer Reviews</p>
+          <h2 className="reviews-title">
+            Loved &amp; trusted by <span className="reviews-title-accent">thousands of households</span> across Dhaka.
+          </h2>
+          <div className="reviews-summary-badge" ref={scoreBadgeRef}>
             <div className="rev-score">
               <span className="rev-stars">
                 {[0, 1, 2, 3, 4].map((i) => <StarIcon key={i} size={17} />)}
               </span>
-              <span className="rev-val">4.8 / 5.0</span>
+              <span className="rev-val">{reviewScore} / 5.0</span>
             </div>
-            <p className="rev-note">Based on 2,400+ verified customer reviews</p>
+            <span className="rev-badge-sep" aria-hidden="true">•</span>
+            <p className="rev-note">Based on 1,200+ verified customer reviews</p>
           </div>
         </Reveal>
 

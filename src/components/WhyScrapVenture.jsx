@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Reveal from './Reveal.jsx';
 import ScrollStack from './ScrollStack.jsx';
 import {
@@ -8,6 +9,29 @@ import {
   RealisticRecycleIcon,
   CheckCircleIcon,
 } from './pickup/pickupIcons.jsx';
+
+const WHY_IMAGES = [
+  {
+    src: 'assets/images/why-1-rates.jpg',
+    alt: 'Fair Pricing & Real-Time Rates - Digital Scale',
+    badge: '01 / FAIR PRICING',
+  },
+  {
+    src: 'assets/images/why-2-doorstep.jpg',
+    alt: 'Convenient Doorstep Pickup - ScrapVenture Collection Van',
+    badge: '02 / DOORSTEP PICKUP',
+  },
+  {
+    src: 'assets/images/why-3-payment.jpg',
+    alt: 'Trusted Service & Instant Payment - Digital & Spot Cash',
+    badge: '03 / INSTANT PAYMENT',
+  },
+  {
+    src: 'assets/images/why-4-circular.jpg',
+    alt: 'Sustainable Circular Recycling - Eco Facility',
+    badge: '04 / CIRCULAR IMPACT',
+  },
+];
 
 const WHY_POINTS = [
   {
@@ -73,6 +97,19 @@ const WHY_POINTS = [
 ];
 
 export default function WhyScrapVenture() {
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [prevImageIndex, setPrevImageIndex] = useState(0);
+
+  const handleActiveIndexChange = (newIndex) => {
+    setActiveImageIndex((current) => {
+      if (newIndex !== current) {
+        setPrevImageIndex(current);
+        return newIndex;
+      }
+      return current;
+    });
+  };
+
   return (
     <section className="why" id="why">
       <div className="wrap">
@@ -87,16 +124,34 @@ export default function WhyScrapVenture() {
           </p>
         </Reveal>
 
-        {/* 2-Column Split Layout: Left Sticky Image + Right ScrollStack Cards */}
+        {/* 2-Column Split Layout: Left Sticky Animated Image + Right ScrollStack Cards */}
         <div className="why-split-grid">
-          {/* Left Column: Image (Sticky while right side scrolls) */}
+          {/* Left Column: Dynamic Animated Image */}
           <div className="why-image-col">
             <div className="why-sticky-img-card">
-              <img
-                src="assets/images/why-pickup.jpg"
-                alt="ScrapVenture Doorstep Pickup and Digital Weighing"
-                loading="lazy"
-              />
+              <div className="why-img-slides-container">
+                {WHY_IMAGES.map((img, idx) => {
+                  const isActive = idx === activeImageIndex;
+                  const isPrev = idx === prevImageIndex;
+                  let stateClass = '';
+                  if (isActive) stateClass = 'is-active';
+                  else if (isPrev) stateClass = 'was-active';
+
+                  return (
+                    <div
+                      key={idx}
+                      className={`why-img-slide ${stateClass}`}
+                      aria-hidden={!isActive}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        loading={idx === 0 ? 'eager' : 'lazy'}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
@@ -108,6 +163,7 @@ export default function WhyScrapVenture() {
               baseTop={115}
               topOffset={26}
               scaleIncrement={0.038}
+              onActiveIndexChange={handleActiveIndexChange}
             >
               {WHY_POINTS.map((point) => {
                 const Icon = point.icon;

@@ -21,13 +21,6 @@ export default function ProductCard({ product }) {
           className="mp-product-img"
         />
 
-        {/* Badges Overlay */}
-        <div className="mp-card-badges">
-          {product.badges.slice(0, 2).map((b, i) => (
-            <span key={i} className="mp-badge-tag">{b}</span>
-          ))}
-        </div>
-
         {/* Wishlist Button */}
         <button
           className={`mp-wishlist-toggle ${wishlisted ? 'active' : ''}`}
@@ -35,11 +28,11 @@ export default function ProductCard({ product }) {
             e.stopPropagation();
             toggleWishlist(product.id);
           }}
-          title={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-          aria-label="Wishlist"
+          title={wishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
+          aria-label={wishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
         >
-          <svg width="19" height="19" viewBox="0 0 24 24" fill={wishlisted ? '#ef4444' : 'none'} stroke={wishlisted ? '#ef4444' : 'currentColor'} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={wishlisted ? "2.4" : "2.2"} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
         </button>
 

@@ -72,7 +72,6 @@ export default function Awards() {
                   <h2 className="award-item__title">{a.title}</h2>
                   <p className="award-item__desc">{a.desc}</p>
                   <div className="award-item__highlight">
-                    <span className="award-highlight-bullet"></span>
                     <span>Verified Milestone Achievement</span>
                   </div>
                 </div>

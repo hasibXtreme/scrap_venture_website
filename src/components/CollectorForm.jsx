@@ -19,7 +19,7 @@ export default function CollectorForm() {
     district: '',
     thana: '',
     customThana: '',
-    vehicle: 'Van / Three-Wheeler',
+    vehicle: '',
     experience: '1-2 Years',
     agreeTerms: true,
   });
@@ -168,7 +168,7 @@ export default function CollectorForm() {
       district: '',
       thana: '',
       customThana: '',
-      vehicle: 'Van / Three-Wheeler',
+      vehicle: '',
       experience: '1-2 Years',
       agreeTerms: true,
     });
@@ -297,7 +297,7 @@ export default function CollectorForm() {
             {/* Full Name */}
             <div className="form-group">
               <label htmlFor={`${formId}-name`} className="form-label">
-                Full Name <span className="req">*</span>
+                Full Name / আপনার নাম <span className="req">*</span>
               </label>
               <div className="input-wrap">
                 <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -310,7 +310,7 @@ export default function CollectorForm() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Your Name"
+                  placeholder="Full Name / আপনার নাম"
                   className={`form-input ${errors.name ? 'input-error' : ''}`}
                   autoComplete="name"
                 />
@@ -321,7 +321,7 @@ export default function CollectorForm() {
             {/* Email Address */}
             <div className="form-group">
               <label htmlFor={`${formId}-email`} className="form-label">
-                Email Address <span className="req">*</span>
+                Email Address / আপনার ইমেইল <span className="req">*</span>
               </label>
               <div className="input-wrap">
                 <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -334,7 +334,7 @@ export default function CollectorForm() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="Your email address"
+                  placeholder="Email Address / আপনার ইমেইল"
                   className={`form-input ${errors.email ? 'input-error' : ''}`}
                   autoComplete="email"
                 />
@@ -369,7 +369,7 @@ export default function CollectorForm() {
             {/* NID Number */}
             <div className="form-group">
               <label htmlFor={`${formId}-nid`} className="form-label">
-                National ID (NID) Number <span className="req">*</span>
+                National ID (NID) Number / জাতীয় পরিচয়পত্র নম্বর <span className="req">*</span>
               </label>
               <div className="input-wrap">
                 <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -384,7 +384,7 @@ export default function CollectorForm() {
                   name="nid"
                   value={formData.nid}
                   onChange={handleInputChange}
-                  placeholder="National ID (NID) Number"
+                  placeholder="NID Number / জাতীয় পরিচয়পত্র নম্বর"
                   className={`form-input ${errors.nid ? 'input-error' : ''}`}
                   maxLength="17"
                 />
@@ -490,7 +490,7 @@ export default function CollectorForm() {
           {formData.thana === 'Other' && (
             <div className="form-group custom-thana-group">
               <label htmlFor={`${formId}-customThana`} className="form-label">
-                Specify Thana / Police Station Name <span className="req">*</span>
+                Specify Thana / Police Station Name / থানার নাম <span className="req">*</span>
               </label>
               <div className="input-wrap">
                 <svg className="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -503,7 +503,7 @@ export default function CollectorForm() {
                   name="customThana"
                   value={formData.customThana}
                   onChange={handleInputChange}
-                  placeholder="e.g. Rampura, Savar, বা নির্দিষ্ট থানা"
+                  placeholder="e.g. Rampura, Savar / যেমন: রামপুরা, সাভার"
                   className={`form-input ${errors.thana ? 'input-error' : ''}`}
                 />
               </div>
@@ -522,7 +522,7 @@ export default function CollectorForm() {
             {/* Transport / Vehicle Type */}
             <div className="form-group">
               <label htmlFor={`${formId}-vehicle`} className="form-label">
-                Transport / Vehicle Type
+                Transport / Vehicle Type / যানবাহনের ধরন
               </label>
               <div className="select-wrap">
                 <select
@@ -532,11 +532,12 @@ export default function CollectorForm() {
                   onChange={handleInputChange}
                   className="form-select"
                 >
+                  <option value="" disabled hidden>Select Vehicle Type... / যানবাহনের ধরন নির্বাচন করুন</option>
                   <option value="Van / Three-Wheeler">Van / Three-Wheeler (রিকশা ভ্যান)</option>
-                  <option value="Motorcycle / Scooter">Motorcycle / Scooter</option>
-                  <option value="Pickup Truck / Mini Truck">Pickup Truck / Mini Truck</option>
-                  <option value="Bicycle / Hand Trolley">Bicycle / Hand Trolley</option>
-                  <option value="On Foot / Neighborhood Cart">On Foot / Neighborhood Cart</option>
+                  <option value="Motorcycle / Scooter">Motorcycle / Scooter (মোটরসাইকেল / স্কুটার)</option>
+                  <option value="Pickup Truck / Mini Truck">Pickup Truck / Mini Truck (পিকআপ / মিনি ট্রাক)</option>
+                  <option value="Bicycle / Hand Trolley">Bicycle / Hand Trolley (বাইসাইকেল / ঠেলাগাড়ি)</option>
+                  <option value="On Foot / Neighborhood Cart">On Foot / Neighborhood Cart (পায়ে হেঁটে / ট্রলি)</option>
                 </select>
                 <span className="select-arrow">▼</span>
               </div>

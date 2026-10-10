@@ -40,6 +40,14 @@ const MATERIALS = [
     alt: 'Cardboard materials',
     badge: 'Bulk Pickup',
   },
+  {
+    name: 'RMG',
+    items: 'Fabric Scraps, Clothes, Denim Pants & Garment Discards',
+    img: 'mat-rmg.jpg',
+    alt: 'RMG and textile garment recycling',
+    badge: 'High Demand',
+    lg: true,
+  },
 ];
 
 export default function Materials() {
@@ -67,17 +75,7 @@ export default function Materials() {
       <div className="wrap mat-container">
         {/* Centered Modern Section Header */}
         <Reveal className="mat-sec-header">
-          {/* Eyebrow Pill with Authentic 3-Arrow Recycling Icon */}
-          <div className="mat-eyebrow-pill">
-            <img
-              src="assets/images/recycle.png"
-              alt="Recycle Symbol"
-              className="mat-eyebrow-recycle-img"
-              width="17"
-              height="17"
-            />
-            <span>WHAT WE COLLECT</span>
-          </div>
+          <p className="eyebrow">What We Collect</p>
 
           <h2 className="mat-title">
             Different scrap. <span className="mat-title-accent">One purpose.</span>
@@ -93,7 +91,7 @@ export default function Materials() {
           {MATERIALS.map((m) => (
             <Link
               to="/book-pickup"
-              className={'mat-card' + (m.lg ? ' lg' : '')}
+              className={'mat-card' + (m.lg ? ' lg' : '') + (m.name === 'RMG' ? ' mat-card-rmg' : '')}
               key={m.name}
               aria-label={`Schedule pickup for ${m.name}`}
             >

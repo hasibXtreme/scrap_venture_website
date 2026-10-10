@@ -12,10 +12,17 @@ export default function ScrollStack({
   baseTop = 110,        // Starting sticky top offset in px
   topOffset = 26,       // Visible tab offset for each stacked card in px
   scaleIncrement = 0.04,// Scale decrement per stacked card
+  onActiveIndexChange,
 }) {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
   const [transforms, setTransforms] = useState([]);
+  const lastActiveRef = useRef(-1);
+  const onActiveRef = useRef(onActiveIndexChange);
+
+  useEffect(() => {
+    onActiveRef.current = onActiveIndexChange;
+  });
 
   const validChildren = Children.toArray(children);
   const totalCards = validChildren.length;
@@ -27,6 +34,26 @@ export default function ScrollStack({
       if (!containerRef.current) return;
       const cards = cardRefs.current.filter(Boolean);
       if (cards.length === 0) return;
+
+      // Track active index based on card scroll position
+      let active = 0;
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        if (card) {
+          const rect = card.getBoundingClientRect();
+          const targetTop = baseTop + i * topOffset;
+          if (rect.top <= targetTop + 75) {
+            active = i;
+          }
+        }
+      }
+
+      if (lastActiveRef.current !== active) {
+        lastActiveRef.current = active;
+        if (onActiveRef.current) {
+          onActiveRef.current(active);
+        }
+      }
 
       const newTransforms = cards.map((card, i) => {
         let stackCount = 0;

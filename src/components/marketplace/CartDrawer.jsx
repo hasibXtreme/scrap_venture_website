@@ -53,7 +53,12 @@ export default function CartDrawer() {
             {remainingForFree > 0 ? (
               <span>Add <strong>৳{remainingForFree.toLocaleString()}</strong> more for <strong>FREE Delivery</strong></span>
             ) : (
-              <span className="mp-fs-unlocked">🎉 You unlocked <strong>FREE Delivery!</strong></span>
+              <span className="mp-fs-unlocked">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: '-2px', marginRight: '6px' }}>
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                You unlocked <strong>FREE Delivery!</strong>
+              </span>
             )}
           </div>
           <div className="mp-fs-bar-track">
@@ -65,7 +70,13 @@ export default function CartDrawer() {
         <div className="mp-cart-items-list">
           {cart.length === 0 ? (
             <div className="mp-cart-empty">
-              <div className="mp-empty-icon">🛍️</div>
+              <div className="mp-empty-icon">
+                <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+              </div>
               <h3>Your cart is empty</h3>
               <p>Explore our recycled and sustainable collections to make a positive impact!</p>
               <button

@@ -87,7 +87,7 @@ export function MarketplaceProvider({ children }) {
       }
       return [...prev, { product, quantity }];
     });
-    showToast(`Added ${quantity}x "${product.name}" to cart! 🛍️`);
+    showToast(`Added ${quantity}x "${product.name}" to cart`, 'cart');
   };
 
   const removeFromCart = (productId) => {
@@ -116,10 +116,10 @@ export function MarketplaceProvider({ children }) {
     setWishlist((prev) => {
       const exists = prev.includes(productId);
       if (exists) {
-        showToast('Removed from wishlist', 'info');
+        showToast('Removed from Wishlist', 'info');
         return prev.filter((id) => id !== productId);
       } else {
-        showToast('Added to your Wishlist! 💚');
+        showToast('Added to your Wishlist', 'wishlist');
         return [...prev, productId];
       }
     });
@@ -159,7 +159,7 @@ export function MarketplaceProvider({ children }) {
     setActiveOrder(newOrder);
     setCart([]);
     setIsCheckoutOpen(false);
-    showToast(`Order #${orderId} confirmed successfully! 🎉`);
+    showToast(`Order #${orderId} confirmed successfully!`, 'success');
   };
 
   // Filter products

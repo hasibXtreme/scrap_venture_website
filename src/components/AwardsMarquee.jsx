@@ -21,7 +21,9 @@ export default function AwardsMarquee() {
     <section className="awards" id="awards">
       <Reveal className="wrap awards-head">
         <p className="eyebrow">Awards &amp; Recognition</p>
-        <h2>Recognized for our contribution to responsible recycling and a cleaner future.</h2>
+        <h2 className="awards-marquee-title">
+          Honored for driving <span className="awards-title-accent">sustainable innovation</span> and circular impact.
+        </h2>
       </Reveal>
 
       {/* Marquee — scrolls right to left */}

@@ -646,31 +646,68 @@ export default function BookPickup() {
                   <div className="form-grid-2">
                     <div className="form-group">
                       <label className="form-label">
-                        Full Name <span className="required">*</span>
+                        Full Name / আপনার নাম <span className="required">*</span>
                       </label>
-                      <input
-                        type="text"
-                        className={`form-input ${errors.fullName ? 'has-error' : ''}`}
-                        placeholder="Your Full Name"
-                        value={customer.fullName}
-                        onChange={(e) => {
-                          setCustomer({ ...customer, fullName: e.target.value });
-                          if (errors.fullName) setErrors({ ...errors, fullName: null });
-                        }}
-                      />
+                      <div className="input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                        <span
+                          className="input-icon"
+                          style={{
+                            position: 'absolute',
+                            left: '14px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8',
+                            pointerEvents: 'none',
+                            zIndex: 2,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <UserIcon size={18} />
+                        </span>
+                        <input
+                          type="text"
+                          className={`form-input ${errors.fullName ? 'has-error' : ''}`}
+                          style={{ paddingLeft: '44px' }}
+                          placeholder="Full Name / আপনার নাম"
+                          value={customer.fullName}
+                          onChange={(e) => {
+                            setCustomer({ ...customer, fullName: e.target.value });
+                            if (errors.fullName) setErrors({ ...errors, fullName: null });
+                          }}
+                        />
+                      </div>
                       {errors.fullName && <span className="form-error-msg">{errors.fullName}</span>}
                     </div>
 
                     <div className="form-group">
                       <label className="form-label">
-                        Phone Number <span className="required">*</span>
+                        Contact Number / ফোন নম্বর <span className="required">*</span>
                       </label>
-                      <div className={`input-with-prefix ${errors.phone ? 'has-error' : ''}`}>
-                        <span className="input-prefix">+880</span>
+                      <div className="input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                        <span
+                          className="input-icon"
+                          style={{
+                            position: 'absolute',
+                            left: '14px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8',
+                            pointerEvents: 'none',
+                            zIndex: 2,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <PhoneIcon size={18} />
+                        </span>
                         <input
                           type="tel"
-                          className="form-input"
-                          placeholder="Your Phone Number"
+                          className={`form-input ${errors.phone ? 'has-error' : ''}`}
+                          style={{ paddingLeft: '44px' }}
+                          placeholder="01XXXXXXXXX / ফোন নম্বর"
                           value={customer.phone}
                           onChange={(e) => {
                             setCustomer({ ...customer, phone: e.target.value });
@@ -685,32 +722,72 @@ export default function BookPickup() {
                   <div className="form-grid-2" style={{ marginTop: 14 }}>
                     <div className="form-group">
                       <label className="form-label">
-                        Email Address <span className="required">*</span>
+                        Email Address / আপনার ইমেইল <span className="required">*</span>
                       </label>
-                      <input
-                        type="email"
-                        className={`form-input ${errors.email ? 'has-error' : ''}`}
-                        placeholder="Your Email Address"
-                        value={customer.email}
-                        onChange={(e) => {
-                          setCustomer({ ...customer, email: e.target.value });
-                          if (errors.email) setErrors({ ...errors, email: null });
-                        }}
-                      />
+                      <div className="input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                        <span
+                          className="input-icon"
+                          style={{
+                            position: 'absolute',
+                            left: '14px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8',
+                            pointerEvents: 'none',
+                            zIndex: 2,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <MailIcon size={18} />
+                        </span>
+                        <input
+                          type="email"
+                          className={`form-input ${errors.email ? 'has-error' : ''}`}
+                          style={{ paddingLeft: '44px' }}
+                          placeholder="Email Address / আপনার ইমেইল"
+                          value={customer.email}
+                          onChange={(e) => {
+                            setCustomer({ ...customer, email: e.target.value });
+                            if (errors.email) setErrors({ ...errors, email: null });
+                          }}
+                        />
+                      </div>
                       {errors.email && <span className="form-error-msg">{errors.email}</span>}
                     </div>
 
                     <div className="form-group">
                       <label className="form-label">
-                        Alternative Contact Number <span className="optional">(Optional)</span>
+                        Alternative Contact Number / বিকল্প ফোন নম্বর <span className="optional">(ঐচ্ছিক)</span>
                       </label>
-                      <input
-                        type="tel"
-                        className="form-input"
-                        placeholder="Alternative Contact Number"
-                        value={customer.altPhone}
-                        onChange={(e) => setCustomer({ ...customer, altPhone: e.target.value })}
-                      />
+                      <div className="input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                        <span
+                          className="input-icon"
+                          style={{
+                            position: 'absolute',
+                            left: '14px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8',
+                            pointerEvents: 'none',
+                            zIndex: 2,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <PhoneIcon size={18} />
+                        </span>
+                        <input
+                          type="tel"
+                          className="form-input"
+                          style={{ paddingLeft: '44px' }}
+                          placeholder="Optional phone / বিকল্প ফোন নম্বর"
+                          value={customer.altPhone}
+                          onChange={(e) => setCustomer({ ...customer, altPhone: e.target.value })}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -1014,7 +1091,7 @@ export default function BookPickup() {
                   </div>
 
                   {/* Manual Address Form */}
-                  <div className="manual-address-section">
+                    <div className="manual-address-section">
                     <h3 className="manual-address-header">
                       <FileTextIcon size={18} color="var(--green)" />
                       <span>Manual Address Form</span>
@@ -1022,22 +1099,24 @@ export default function BookPickup() {
 
                     <div className="form-grid-2">
                       <div className="form-group">
-                        <label className="form-label">House / Building / Flat</label>
+                        <label className="form-label">House / Building / Flat / বাসা বা ফ্ল্যাট নম্বর</label>
                         <input
                           type="text"
                           className="form-input"
-                          placeholder="e.g. House 14, Flat 4B"
+                          style={{ paddingLeft: '14px' }}
+                          placeholder="e.g. House 14, Flat 4B / যেমন: বাসা ১৪, ফ্ল্যাট ৪বি"
                           value={manualAddress.house}
                           onChange={(e) => setManualAddress({ ...manualAddress, house: e.target.value })}
                         />
                       </div>
 
                       <div className="form-group">
-                        <label className="form-label">Road / Street</label>
+                        <label className="form-label">Road / Street / রোড বা রাস্তা</label>
                         <input
                           type="text"
                           className="form-input"
-                          placeholder="e.g. Road 5, Block B"
+                          style={{ paddingLeft: '14px' }}
+                          placeholder="e.g. Road 5, Block B / যেমন: রোড ৫, ব্লক বি"
                           value={manualAddress.road}
                           onChange={(e) => setManualAddress({ ...manualAddress, road: e.target.value })}
                         />
@@ -1047,12 +1126,13 @@ export default function BookPickup() {
                     <div className="form-grid-2" style={{ marginTop: 12 }}>
                       <div className="form-group">
                         <label className="form-label">
-                          Area / Neighborhood <span className="required">*</span>
+                          Area / Neighborhood / এলাকা বা মহল্লা <span className="required">*</span>
                         </label>
                         <input
                           type="text"
                           className={`form-input ${errors.address ? 'has-error' : ''}`}
-                          placeholder="e.g. Mirpur, Dhanmondi, Gulshan"
+                          style={{ paddingLeft: '14px' }}
+                          placeholder="e.g. Mirpur, Dhanmondi / যেমন: মিরপুর, ধানমন্ডি"
                           value={manualAddress.area}
                           onChange={(e) => {
                             setManualAddress({ ...manualAddress, area: e.target.value });
@@ -1063,11 +1143,12 @@ export default function BookPickup() {
                       </div>
 
                       <div className="form-group">
-                        <label className="form-label">City</label>
+                        <label className="form-label">City / শহর</label>
                         <input
                           type="text"
                           className="form-input"
-                          placeholder="e.g. Dhaka"
+                          style={{ paddingLeft: '14px' }}
+                          placeholder="e.g. Dhaka / যেমন: ঢাকা"
                           value={manualAddress.city}
                           onChange={(e) => setManualAddress({ ...manualAddress, city: e.target.value })}
                         />
@@ -1076,21 +1157,23 @@ export default function BookPickup() {
 
                     <div className="form-grid-2" style={{ marginTop: 12 }}>
                       <div className="form-group">
-                        <label className="form-label">District</label>
+                        <label className="form-label">District / জেলা</label>
                         <input
                           type="text"
                           className="form-input"
-                          placeholder="e.g. Dhaka"
+                          style={{ paddingLeft: '14px' }}
+                          placeholder="e.g. Dhaka / যেমন: ঢাকা"
                           value={manualAddress.district}
                           onChange={(e) => setManualAddress({ ...manualAddress, district: e.target.value })}
                         />
                       </div>
 
                       <div className="form-group">
-                        <label className="form-label">Postal Code</label>
+                        <label className="form-label">Postal Code / পোস্টাল কোড</label>
                         <input
                           type="text"
                           className="form-input"
+                          style={{ paddingLeft: '14px' }}
                           placeholder="e.g. 1216"
                           value={manualAddress.postalCode}
                           onChange={(e) => setManualAddress({ ...manualAddress, postalCode: e.target.value })}
@@ -1099,11 +1182,12 @@ export default function BookPickup() {
                     </div>
 
                     <div className="form-group" style={{ marginTop: 12 }}>
-                      <label className="form-label">Additional Address Details / Landmark</label>
+                      <label className="form-label">Additional Address Details / Landmark / বিস্তারিত ঠিকানা বা ল্যান্ডমার্ক</label>
                       <input
                         type="text"
                         className="form-input"
-                        placeholder="e.g. Near Mirpur Stadium Gate 2"
+                        style={{ paddingLeft: '14px' }}
+                        placeholder="e.g. Near Mirpur Stadium Gate 2 / যেমন: স্টেডিয়াম গেট ২ এর কাছে"
                         value={manualAddress.details}
                         onChange={(e) => setManualAddress({ ...manualAddress, details: e.target.value })}
                       />
@@ -1202,12 +1286,12 @@ export default function BookPickup() {
                   {/* Special Instructions */}
                   <div className="form-group">
                     <label className="form-label">
-                      Special Instructions for Collector <span className="optional">(Optional)</span>
+                      Special Instructions for Collector / সংগ্রাহকের জন্য বিশেষ নির্দেশনা <span className="optional">(ঐচ্ছিক)</span>
                     </label>
                     <textarea
                       className="form-textarea"
                       rows="3"
-                      placeholder="Please call me before arriving. The waste is kept beside the main gate."
+                      placeholder="Please call me before arriving... / আসার আগে অনুগ্রহ করে আমাকে কল দিন..."
                       value={instructions}
                       onChange={(e) => setInstructions(e.target.value)}
                     ></textarea>

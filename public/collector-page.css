@@ -289,45 +289,45 @@
   margin:0;
 }
 
-.form-grid{
+.collector-form .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
 }
 
-.form-grid-3{
+.collector-form .form-grid-3{
   grid-template-columns:repeat(3, 1fr);
 }
 
-.form-group{
+.collector-form .form-group{
   display:flex;
   flex-direction:column;
   gap:6px;
 }
 
-.custom-thana-group{
+.collector-form .custom-thana-group{
   margin-top:14px;
 }
 
-.form-label{
+.collector-form .form-label{
   font-size:13.5px;
   font-weight:700;
   color:var(--ink-soft);
 }
 
-.req{
+.collector-form .req{
   color:#E11D48;
   margin-left:2px;
 }
 
-.input-wrap,
-.select-wrap{
+.collector-form .input-wrap,
+.collector-form .select-wrap{
   position:relative;
   display:flex;
   align-items:center;
 }
 
-.input-icon{
+.collector-form .input-icon{
   position:absolute;
   left:14px;
   color:var(--gray-light);
@@ -335,8 +335,8 @@
   transition:color .2s;
 }
 
-.form-input,
-.form-select{
+.collector-form .form-input,
+.collector-form .form-select{
   width:100%;
   height:50px;
   border-radius:12px;
@@ -346,24 +346,28 @@
   font-size:14.5px;
   font-weight:500;
   color:var(--ink);
-  padding:0 16px 0 44px;
+  padding:0 16px;
   transition:border-color .2s, box-shadow .2s, background-color .2s;
 }
 
-.form-select{
+.collector-form .input-wrap .form-input{
+  padding-left:44px;
+}
+
+.collector-form .form-select{
   padding:0 36px 0 16px;
   appearance:none;
   -webkit-appearance:none;
   cursor:pointer;
 }
 
-.form-select:disabled{
+.collector-form .form-select:disabled{
   opacity:0.6;
   cursor:not-allowed;
   background:#F3F4F6;
 }
 
-.select-arrow{
+.collector-form .select-arrow{
   position:absolute;
   right:14px;
   font-size:10px;
@@ -371,20 +375,20 @@
   pointer-events:none;
 }
 
-.form-input:focus,
-.form-select:focus{
+.collector-form .form-input:focus,
+.collector-form .form-select:focus{
   background:#FFFFFF;
   border-color:var(--green);
   box-shadow:0 0 0 3px rgba(38,156,38,0.15);
   outline:none;
 }
 
-.input-wrap:focus-within .input-icon{
+.collector-form .input-wrap:focus-within .input-icon{
   color:var(--green);
 }
 
-.form-input.input-error,
-.form-select.input-error{
+.collector-form .form-input.input-error,
+.collector-form .form-select.input-error{
   border-color:#E11D48;
   background:#FFFBFB;
   box-shadow:0 0 0 3px rgba(225,29,72,0.12);

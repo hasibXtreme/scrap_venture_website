@@ -7,8 +7,8 @@ const HOME_LINKS = [
   ['/marketplace', 'MarketPlace'],
   ['/team', 'Our Team'],
   ['/awards.html', 'Awards'],
-  ['#reviews', 'Reviews'],
-  ['#footer', 'Contact'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
 ];
 
 const AWARDS_LINKS = [
@@ -16,8 +16,8 @@ const AWARDS_LINKS = [
   ['/marketplace', 'MarketPlace'],
   ['/team', 'Our Team'],
   ['/awards.html', 'Awards'],
-  ['/#reviews', 'Reviews'],
-  ['#footer', 'Contact'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
 ];
 
 const MARKETPLACE_LINKS = [
@@ -25,8 +25,8 @@ const MARKETPLACE_LINKS = [
   ['/marketplace', 'MarketPlace'],
   ['/team', 'Our Team'],
   ['/awards.html', 'Awards'],
-  ['/#reviews', 'Reviews'],
-  ['#footer', 'Contact'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
 ];
 
 const TEAM_LINKS = [
@@ -34,8 +34,26 @@ const TEAM_LINKS = [
   ['/marketplace', 'MarketPlace'],
   ['/team', 'Our Team'],
   ['/awards.html', 'Awards'],
-  ['/#reviews', 'Reviews'],
-  ['#footer', 'Contact'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
+];
+
+const BLOG_LINKS = [
+  ['/', 'Home'],
+  ['/marketplace', 'MarketPlace'],
+  ['/team', 'Our Team'],
+  ['/awards.html', 'Awards'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
+];
+
+const CONTACT_LINKS = [
+  ['/', 'Home'],
+  ['/marketplace', 'MarketPlace'],
+  ['/team', 'Our Team'],
+  ['/awards.html', 'Awards'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
 ];
 
 const VARIANTS = {
@@ -93,6 +111,24 @@ const VARIANTS = {
     downloadHref: '/#footer',
     pickupHref: '/book-pickup',
   },
+  blog: {
+    headerClass: 'nav nav-page',
+    brandHref: '/',
+    links: BLOG_LINKS,
+    desktopActive: 'Blog',
+    mobileActive: 'Blog',
+    downloadHref: '/#footer',
+    pickupHref: '/book-pickup',
+  },
+  contact: {
+    headerClass: 'nav nav-page',
+    brandHref: '/',
+    links: CONTACT_LINKS,
+    desktopActive: 'Contact',
+    mobileActive: 'Contact',
+    downloadHref: '/#footer',
+    pickupHref: '/book-pickup',
+  },
 };
 
 export default function Navbar({ variant, scrolled }) {
@@ -109,7 +145,15 @@ export default function Navbar({ variant, scrolled }) {
           </a>
           <ul className="nav-links">
             {v.links.map(([href, label]) => {
-              const isInternalRoute = href === '/marketplace' || href === '/awards.html' || href === '/awards' || href === '/' || href === '/team' || href === '/become-a-collector';
+              const isInternalRoute =
+                href === '/marketplace' ||
+                href === '/awards.html' ||
+                href === '/awards' ||
+                href === '/' ||
+                href === '/team' ||
+                href === '/become-a-collector' ||
+                href === '/blog' ||
+                href === '/blog.html';
               return (
                 <li key={label}>
                   {isInternalRoute ? (
@@ -129,10 +173,9 @@ export default function Navbar({ variant, scrolled }) {
             <a
               href={v.downloadHref}
               className="btn btn-outline nav-download-btn"
-              title="Download App"
-              aria-label="Download App"
             >
-              <DownloadIcon size={19} />
+              <DownloadIcon size={16} />
+              <span>Download App</span>
             </a>
             <Link
               to="/book-pickup"
@@ -154,7 +197,15 @@ export default function Navbar({ variant, scrolled }) {
 
       <div className={'mobile-menu' + (open ? ' open' : '')} id="mobileMenu">
         {v.links.map(([href, label]) => {
-          const isInternalRoute = href === '/marketplace' || href === '/awards.html' || href === '/awards' || href === '/' || href === '/team' || href === '/become-a-collector';
+          const isInternalRoute =
+            href === '/marketplace' ||
+            href === '/awards.html' ||
+            href === '/awards' ||
+            href === '/' ||
+            href === '/team' ||
+            href === '/become-a-collector' ||
+            href === '/blog' ||
+            href === '/blog.html';
           return isInternalRoute ? (
             <Link
               key={label}

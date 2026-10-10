@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMarketplace } from '../../context/MarketplaceContext.jsx';
+import { UserIcon, PhoneIcon, MailIcon } from '../icons.jsx';
 
 export default function CheckoutModal() {
   const {
@@ -86,36 +87,45 @@ export default function CheckoutModal() {
                 </h3>
                 <div className="mp-form-grid">
                   <div className="mp-input-group full">
-                    <label>Full Name *</label>
-                    <input
-                      type="text"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      placeholder="e.g. Arif Hossain"
-                      required
-                    />
+                    <label>Full Name / আপনার নাম *</label>
+                    <div className="mp-input-wrap">
+                      <span className="mp-input-icon"><UserIcon size={16} /></span>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        placeholder="Full Name / আপনার নাম"
+                        required
+                      />
+                    </div>
                   </div>
                   <div className="mp-input-group">
-                    <label>Phone Number *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="e.g. 01712345678"
-                      required
-                    />
+                    <label>Phone Number / ফোন নম্বর *</label>
+                    <div className="mp-input-wrap">
+                      <span className="mp-input-icon"><PhoneIcon size={16} /></span>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="01XXXXXXXXX"
+                        required
+                      />
+                    </div>
                   </div>
                   <div className="mp-input-group">
-                    <label>Email Address</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="e.g. arif@gmail.com"
-                    />
+                    <label>Email Address / আপনার ইমেইল</label>
+                    <div className="mp-input-wrap">
+                      <span className="mp-input-icon"><MailIcon size={16} /></span>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email Address / আপনার ইমেইল"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -319,9 +329,18 @@ export default function CheckoutModal() {
                 </button>
 
                 <div className="mp-checkout-trust-points">
-                  <div>🌱 Certified Post-Consumer Materials</div>
-                  <div>📦 Carbon Neutral Courier Transport</div>
-                  <div>🛡️ Guaranteed 7-Day Exchange Policy</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                    <span>Certified Post-Consumer Materials</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>Carbon Neutral Courier Transport</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Guaranteed 7-Day Exchange Policy</span>
+                  </div>
                 </div>
               </div>
             </div>
